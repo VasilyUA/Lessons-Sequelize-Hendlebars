@@ -3,7 +3,6 @@ const Sequelize = require("sequelize");
 module.exports = new Sequelize("gig", "root", "", {
   host: "localhost",
   dialect: "mysql",
-  operatorsAliases: false,
 
   pool: {
     max: 5,

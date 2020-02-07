@@ -7,7 +7,7 @@ const db = require("./database/sequelize");
 
 //Test Db conection
 db.authenticate()
-  .then(() => console.log("Database connected..."))
+  .then(() => console.log("Connected..."))
   .catch(err => console.log("Error: " + err));
 
 const app = express();
