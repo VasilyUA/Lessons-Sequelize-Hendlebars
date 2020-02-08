@@ -5,11 +5,6 @@ const path = require("path");
 
 const db = require("./database/sequelize");
 
-//Test Db conection
-db.authenticate()
-  .then(() => console.log("Connected..."))
-  .catch(err => console.log("Error: " + err));
-
 const app = express();
 
 //HBS
@@ -39,8 +34,14 @@ app.get("/", (req, res) => {
 app.use("/gigs", require("./routes/Gigs"));
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}!`);
-});
+//Test Db conection
+db.authenticate()
+  .then(() => {
+    console.log("Connected...");
+    app.listen(PORT, () => {
+      console.log(`Example app listening on port ${PORT}!`);
+    });
+  })
+  .catch(err => console.log("Error: " + err));
 
 //Run app, then load http://localhost:3000 in a browser to see the output.
