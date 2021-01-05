@@ -9,8 +9,9 @@ const app = express();
 
 //HBS
 const hbs = exphbs.create({
-	defaultLayout: 'main',
 	extname: 'hbs',
+	defaultLayout: 'main',
+	layoutsDir: path.join(__dirname, 'views'),
 });
 
 app.engine('hbs', hbs.engine);
@@ -25,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/', require('./routes/Gigs'));
+app.use('/', require('./routes/todo'));
 
 app.use((req, res) => res.status(404).send('404 - Not Found!'));
 
