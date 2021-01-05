@@ -1,0 +1,13 @@
+{
+	"ignore": ["node_modules"],
+	"env": {
+		"NODE_ENV": "development",
+		"DATA_BASE": "todos",
+		"ADMIN": "root",
+		"PASSWORD_ADMIN": "2820",
+		"HOST": "localhost",
+		"PORT": 5000
+	},
+	"ext": ".js,.json",
+	"watch": "./"
+}

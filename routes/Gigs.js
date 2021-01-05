@@ -1,59 +1,68 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const db = require("../database/sequelize");
-const Gig = require("../models/Gig");
+const Todo = require('../models/todo');
 
-//Вивод даних
-router.get("/", (req, res) =>
-  Gig.findAll()
-    .then(gigs => res.json(gigs))
-    .catch(err => console.log(err))
-);
-
-//Пост даних
-router.get("/add", (req, res) => {
-  const data = {
-    title: "looking",
-    technologies: "React",
-    budget: "$3000",
-    description:
-      "aasdfklajsdfhhjdksalkjhffkd;saksdjhfjksdjfhfudiwueciuneuskjdjfhskjdxnckesduencin ishdcvkicjn iuwseckjksn iuswic h iucux",
-    contact_email: "user@gmail.com"
-  };
-
-  let { title, technologies, budget, description, contact_email } = data;
-  Gig.create({
-    title,
-    technologies,
-    budget,
-    description,
-    contact_email
-  })
-    .then(gig => res.redirect("/"))
-    .catch(e => console.log("ERORR...." + e));
+router.get('/', async (req, res) => {
+	try {
+		const todos = await Todo.findAll();
+		res.json(todos);
+	} catch (error) {
+		res.send('Error todos not find:' + error);
+	}
 });
 
-//Видалиння не може працювати оновленя і видалення з одної url адреси 
-// router.get("/:id", (req, res) => {
-//   var user = Gig.build({ id: req.params.id });
-//   user
-//     .destroy()
-//     .then(gig => res.redirect("/"))
-//     .catch(e => console.log("ERORR...." + e));
-// });
+router.get('/:id', async (req, res) => {
+	if (!req.params.id) res.status(400).send('ID is nod defind!');
+	try {
+		const todo = await Todo.findByPk(req.params.id);
+		res.json(todo);
+	} catch (error) {
+		res.send('Error todos not find:' + error);
+	}
+});
 
-//оновлення стерти фів потім запрацює але зверху добавити
-// router.get("фів/:id", (req, res) => {
-//   Gig.update(
-//     { title: "Doe" },
-//     {
-//       where: {
-//         id: req.params.id
-//       }
-//     }
-//   )
-//     .then(gig => res.redirect("/"))
-//     .catch(e => console.log("ERORR...." + e));
-// });
+router.post('/', async (req, res) => {
+	if (!req.body) res.status(400).send('Body is requared!');
+	if (!req.body.title || !req.body.description) {
+		res.status(400).send('Title and description is requared!');
+	}
+	try {
+		const todo = await Todo.create(req.body);
+		res.status(200).json(todo);
+	} catch (error) {
+		res.send('Todo is not created:' + error);
+	}
+});
+
+router.put('/:id', async (req, res) => {
+	if (!req.params.id) res.status(400).send('ID is nod defind!');
+	if (!req.body) res.status(400).send('Body is requared!');
+	if (!req.body.title || !req.body.description) {
+		res.status(400).send('Title and description is requared!');
+	}
+	try {
+		await Todo.update(req.body, {
+			where: {
+				id: req.params.id,
+			},
+			returning: true,
+			plain: true,
+		});
+		const todo = await Todo.findByPk(req.params.id);
+		res.status(200).json(todo);
+	} catch (error) {
+		res.send('Todo is not update:' + error);
+	}
+});
+
+router.delete('/:id', async (req, res) => {
+	if (!req.params.id) res.status(400).send('ID is nod defind!');
+	try {
+		await Todo.destroy({ where: { id: req.params.id } });
+		res.status(200).send('Todo remove is seccsess!');
+	} catch (error) {
+		res.send('Todo is not delete:' + error);
+	}
+});
 
 module.exports = router;
