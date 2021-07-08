@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
+const cors = require('cors');
 const path = require('path');
 
 const db = require('./database/sequelize');
@@ -23,6 +24,9 @@ app.set('views', 'views');
 app.use(express.static(path.join(__dirname, 'public')));
 
 //body-parser
+const CORS_CLIENT = process.env.CORS_CLIENT;
+app.use(cors({ origin: CORS_CLIENT.split(','), optionsSuccessStatus: 200 }));
+app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -40,8 +44,6 @@ const PORT = process.env.PORT || 5000;
 
 db.authenticate()
 	.then(() => console.log('Connected...'))
-	.catch((err) => console.log('Error: ' + err));
+	.catch((err) => console.log('Error data base: ' + err));
 
-app.listen(PORT, () =>
-	console.log(`Example app listening on port http://localhost:${PORT}/`)
-);
+app.listen(PORT, () => console.log(`Example app listening on port http://localhost:${PORT}/`));
