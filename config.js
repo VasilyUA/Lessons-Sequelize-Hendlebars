@@ -1,13 +1,14 @@
-const dotenv = require('dotenv');
-const path = require('path');
+const dotenv = require("dotenv");
+const path = require("path");
 
 const root = path.join.bind(this, __dirname);
-dotenv.config({ path: root('.env') });
+dotenv.config({ path: root(".env") });
 module.exports = {
-	PORT: process.env.PORT,
-	DATA_BASE: process.env.DATA_BASE,
-	ADMIN: process.env.ADMIN,
-	PASSWORD_ADMIN: process.env.PASSWORD_ADMIN,
-	HOST: process.env.HOST,
-	NODE_ENV: process.env.NODE_ENV,
+  DATA_BASE_NAME: process.env.DATA_BASE_NAME,
+  USER_DB: process.env.USER_DB,
+  PASSWORD_DB: process.env.PASSWORD_DB,
+  HOST_DB: process.env.HOST_DB,
+
+  NODE_ENV: process.env.NODE_ENV,
+  PORT: process.env.PORT,
 };

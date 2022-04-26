@@ -1,12 +1,12 @@
 {
 	"ignore": ["node_modules"],
 	"env": {
-		"NODE_ENV": "development",
-		"DATA_BASE": "todos",
-		"ADMIN": "root",
-		"PASSWORD_ADMIN": "password",
-		"HOST": "localhost",
+		"DATA_BASE_NAME": "todos",
+		"USER_DB": "admin",
+		"PASSWORD_DB": 2820,
+		"HOST_DB": "localhost",
 		"CORS_CLIENT": "http://localhost:5000,http://localhost:3000",
+		"NODE_ENV": "development",
 		"PORT": 3000
 	},
 	"ext": ".js,.json",
